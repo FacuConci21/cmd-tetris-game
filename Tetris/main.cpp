@@ -18,7 +18,7 @@ void Loading();
 
 int main()
 {
-    SItem<void> ng = { "new game", NewGame };
+    /*SItem<void> ng = { "new game", NewGame };
     SItem<void> lg = { "load game", LoadGame };
     SItem<void> qg = { "quit game", QuitGame };
 
@@ -26,7 +26,9 @@ int main()
 
     auto it = *menu.Loop();
     system("cls");
-    (it->toDo)();
+    (it->toDo)();*/
+
+    NewGame();
 
 	_getch();
 	return 0;
@@ -34,7 +36,9 @@ int main()
 
 void NewGame()
 {
-    cout << "starting a new game" << endl;
+    Game game;
+
+    game.Main();
 }
 
 void LoadGame()
