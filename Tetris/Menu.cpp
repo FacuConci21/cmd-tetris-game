@@ -25,12 +25,20 @@ bool Menu::MoveCursor()
     case 72:
         cursor.ClearCursorCurrentPosition();
         cursor.MoveUp();
-        itTarget--;
+
+        if (itTarget > szpItems.begin())
+            itTarget--;
+        else if (itTarget <= szpItems.begin())
+            itTarget = szpItems.begin();
+
         break;
     case 80:
         cursor.ClearCursorCurrentPosition();
         cursor.MoveDown(szpItems.size() - 1);
         itTarget++;
+        
+        if (itTarget == szpItems.end())
+            itTarget = szpItems.end() - 1;
         break;
     case 13:
         return false;
@@ -38,10 +46,8 @@ bool Menu::MoveCursor()
         return true;
     }
 
-    if (itTarget < szpItems.begin())
-        itTarget = szpItems.begin();
-    else if (itTarget == szpItems.end())
-        itTarget = szpItems.end() - 1;
+    
+    
 
     return true;
 }
