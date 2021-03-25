@@ -15,6 +15,12 @@ namespace __utils
         int y;
     };
 
+    struct SSize
+    {
+        const int width;
+        const int height;
+    };
+
     class Cursor
     {
         SPoint ptStartPosition;

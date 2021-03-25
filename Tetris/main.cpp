@@ -36,9 +36,7 @@ int main()
 
 void NewGame()
 {
-    Game game;
-
-    game.Main();
+    Game::Main();
 }
 
 void LoadGame()
