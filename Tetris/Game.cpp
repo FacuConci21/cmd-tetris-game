@@ -4,6 +4,7 @@ string Game::hsSymbols = " #ABCDEF";
 
 int Game::Main()
 {
+	bool bInGame = true;
 	__utils::SPoint ptStartingMapPosition = { 30, 5 };
 	const size_t nMapMatrixWidth = 18;
 	const size_t nMapMatrixHeight = 20;
@@ -23,7 +24,7 @@ int Game::Main()
 	}
 	for (size_t j = 1; j < nMapMatrixWidth ; j++)
 	{
-		nMapMatrix[(20)-1][j] = 1;
+		nMapMatrix[nMapMatrixHeight-1][j] = 1;
 	}
 
 
@@ -41,11 +42,24 @@ int Game::Main()
 
 	/*		GAME LOOP		*/
 
-	DisplayShape(Shape::nszShape2.data(), Shape::nszShape2.size(), cShape.X(), cShape.Y());
-	DisplayShape(Shape::nszShape3.data(), Shape::nszShape3.size(), cShape.X()+3, cShape.Y());
-	DisplayShape(Shape::nszShape4.data(), Shape::nszShape4.size(), cShape.X()+5, cShape.Y());
+	while (bInGame)
+	{
+		/*		TIMING AND INPUTS		*/
+
+		/*		GAME LOGIC				*/
+
+		/*		DISPLAY					*/
+
+		cShape.IncrementY();
 
 
+		ClearRegion({ ptStartingMapPosition.x + 1, ptStartingMapPosition.y },
+			{ (int) sqrt(Shape::nszShape2.size()), cShape.Y() });
+
+		DisplayShape(Shape::nszShape2.data(), Shape::nszShape2.size(), cShape.X(), cShape.Y());
+
+		Sleep(500);
+	}
 
 	return 0;
 }

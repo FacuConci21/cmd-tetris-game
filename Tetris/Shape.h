@@ -20,8 +20,25 @@ public:
 
 	int X();
 	int Y();
-	inline int Width();
-	inline int Height();
+	int Width();
+	int Height();
+
+	inline void IncrementX()
+	{
+		ptShapesStartingPoint.x++;
+	}
+	inline void IncrementY()
+	{
+		ptShapesStartingPoint.y++;
+	}
+	inline void DecrementX()
+	{
+		ptShapesStartingPoint.x--;
+	}
+	inline void DecrementY()
+	{
+		ptShapesStartingPoint.y--;
+	}
 
 	// 4x4 shapes.
 	static std::array<short, 4 * 4> nszShape4;

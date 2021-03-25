@@ -22,7 +22,7 @@ class Game
 	static inline void DisplayShape(short* ptrShape, size_t szSizeShape, int x, int y)
 	{
 		size_t i = 0, d = 0 ;
-		for (; i < szSizeShape; i += sqrt(szSizeShape))
+		for (; i < szSizeShape; i += (size_t) sqrt(szSizeShape))
 		{
 			__utils::GoToXY(x, y + d);
 			for (size_t j = 0; j < sqrt(szSizeShape); j++)
@@ -30,6 +30,19 @@ class Game
 				_putch(hsSymbols[ptrShape[i + j]]);
 			}
 			d++;
+		}
+	}
+
+	static inline void ClearRegion(__utils::SPoint ptTopLeft, __utils::SPoint ptBottomRight)
+	{
+		
+		for (int y = 0; y < ptBottomRight.y; y++)
+		{
+			for (int x = 0; x < ptBottomRight.x; x++)
+			{
+				__utils::GoToXY(ptTopLeft.x + x, ptTopLeft.y + y);
+				_putch(' ');
+			}
 		}
 	}
 
