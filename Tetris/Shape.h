@@ -11,6 +11,7 @@
 class Shape
 {
 	__utils::SPoint ptShapesStartingPoint;
+	__utils::SPoint ptShapesCurrentPoint;
 	__utils::SSize sShapesLimits;
 
 public:
@@ -20,8 +21,25 @@ public:
 
 	int X();
 	int Y();
-	inline int Width();
-	inline int Height();
+	int Width();
+	int Height();
+
+	inline void IncrementX()
+	{
+		ptShapesCurrentPoint.x++;
+	}
+	inline void IncrementY()
+	{
+		ptShapesCurrentPoint.y++;
+	}
+	inline void DecrementX()
+	{
+		ptShapesCurrentPoint.x--;
+	}
+	inline void DecrementY()
+	{
+		ptShapesCurrentPoint.y--;
+	}
 
 	// 4x4 shapes.
 	static std::array<short, 4 * 4> nszShape4;
