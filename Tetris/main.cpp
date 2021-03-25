@@ -8,6 +8,8 @@
 
 using namespace std;
 
+int nGameExit = 0;
+
 void NewGame();
 
 void LoadGame();
@@ -18,43 +20,39 @@ void Loading();
 
 int main()
 {
-    /*SItem<void> ng = { "new game", NewGame };
+    SItem<void> ng = { "new game", NewGame };
     SItem<void> lg = { "load game", LoadGame };
     SItem<void> qg = { "quit game", QuitGame };
 
-    Menu menu({ &ng, &lg, &qg }, { 0, 3 });
+    Menu menu({ &ng, &lg, &qg }, { 30, 15 });
 
-    auto it = *menu.Loop();
-    system("cls");
-    (it->toDo)();*/
+    do
+    {
+        auto it = *menu.Loop();
+        system("cls");
+        (it->toDo)();
 
-    NewGame();
-
-	_getch();
+    } while (!nGameExit);
+    
 	return 0;
 }
 
 void NewGame()
 {
-    Game::Main();
+    nGameExit = Game::Main();
+    _getch();
 }
 
 void LoadGame()
 {
-    SItem<void> slot1 = { "slot 1", Loading };
-    SItem<void> slot2 = { "slot 2", Loading };
-
-    Menu loadMenu({ &slot1, &slot2 }, { 1, 4 });
-
-    ((*loadMenu.Loop())->toDo)();
+    cout << "nothing to do ..." << endl;
+    if (_getch() == 27)
+        nGameExit = 1;
 }
 
 void QuitGame()
 {
-    cout << "game over! thanks for playing" << endl;
-}
-
-void Loading()
-{
-    cout << "loading ..." << endl;
+    cout << "nothing to do ..." << endl;
+    if (_getch() == 27)
+        nGameExit = 1;
 }
