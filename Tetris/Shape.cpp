@@ -2,17 +2,18 @@
 
 Shape::Shape(__utils::SPoint _ptShapesStartingPoint, __utils::SSize _sShapesLimits) :
 	ptShapesStartingPoint(_ptShapesStartingPoint),
+	ptShapesCurrentPoint(_ptShapesStartingPoint),
 	sShapesLimits(_sShapesLimits)
 	{};
 
 int Shape::X()
 {
-	return ptShapesStartingPoint.x;
+	return ptShapesCurrentPoint.x;
 }
 
 int Shape::Y()
 {
-	return ptShapesStartingPoint.y;
+	return ptShapesCurrentPoint.y;
 }
 
 inline int Shape::Width()

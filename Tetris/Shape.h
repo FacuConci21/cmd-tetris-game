@@ -11,6 +11,7 @@
 class Shape
 {
 	__utils::SPoint ptShapesStartingPoint;
+	__utils::SPoint ptShapesCurrentPoint;
 	__utils::SSize sShapesLimits;
 
 public:
@@ -25,19 +26,19 @@ public:
 
 	inline void IncrementX()
 	{
-		ptShapesStartingPoint.x++;
+		ptShapesCurrentPoint.x++;
 	}
 	inline void IncrementY()
 	{
-		ptShapesStartingPoint.y++;
+		ptShapesCurrentPoint.y++;
 	}
 	inline void DecrementX()
 	{
-		ptShapesStartingPoint.x--;
+		ptShapesCurrentPoint.x--;
 	}
 	inline void DecrementY()
 	{
-		ptShapesStartingPoint.y--;
+		ptShapesCurrentPoint.y--;
 	}
 
 	// 4x4 shapes.

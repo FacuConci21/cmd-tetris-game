@@ -5,7 +5,7 @@
 #include <conio.h>
 #include <string>
 #include <math.h>
-#include <array>
+#include <thread>
 
 #include "utils.h"
 #include "Shape.h"
@@ -36,9 +36,9 @@ class Game
 	static inline void ClearRegion(__utils::SPoint ptTopLeft, __utils::SPoint ptBottomRight)
 	{
 		
-		for (int y = 0; y < ptBottomRight.y; y++)
+		for (int y = 0; y < (ptBottomRight.y - ptTopLeft.y); y++)
 		{
-			for (int x = 0; x < ptBottomRight.x; x++)
+			for (int x = 0; x < (ptBottomRight.x - ptTopLeft.x); x++)
 			{
 				__utils::GoToXY(ptTopLeft.x + x, ptTopLeft.y + y);
 				_putch(' ');

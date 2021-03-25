@@ -9,7 +9,8 @@ int Game::Main()
 	const size_t nMapMatrixWidth = 18;
 	const size_t nMapMatrixHeight = 20;
 	array<array<short, nMapMatrixWidth>, nMapMatrixHeight> nMapMatrix;
-	Shape cShape({ ptStartingMapPosition.x + 1, ptStartingMapPosition.y }, { nMapMatrixWidth - 2, nMapMatrixHeight - 1 });
+	Shape cShape({ ptStartingMapPosition.x + (int) (nMapMatrixWidth/2), ptStartingMapPosition.y },
+		{ nMapMatrixWidth - 2, nMapMatrixHeight - 1 });
 
 	/*		INITIALIZING MAP MATRIX		 */
 	for (size_t i = 0; i < nMapMatrixHeight; i++)
@@ -45,20 +46,45 @@ int Game::Main()
 	while (bInGame)
 	{
 		/*		TIMING AND INPUTS		*/
+		
+		this_thread::sleep_for(100ms);
+
+		while (_kbhit())
+				{
+					switch (_getch())
+					{
+					case KEY_A:
+						cShape.DecrementX();
+						break;
+					case KEY_D:
+						cShape.IncrementX();
+						break;
+					case KEY_ESCAPE:
+						return 0;
+					}
+			}
 
 		/*		GAME LOGIC				*/
 
-		/*		DISPLAY					*/
+		
 
 		cShape.IncrementY();
 
+		/*		DISPLAY					*/
 
 		ClearRegion({ ptStartingMapPosition.x + 1, ptStartingMapPosition.y },
-			{ (int) sqrt(Shape::nszShape2.size()), cShape.Y() });
+			{ cShape.X() + (int)sqrt(Shape::nszShape2.size()), cShape.Y() + (int)sqrt(Shape::nszShape2.size()) });
 
 		DisplayShape(Shape::nszShape2.data(), Shape::nszShape2.size(), cShape.X(), cShape.Y());
 
-		Sleep(500);
+		// draw floor
+
+		for (size_t j = 1; j < nMapMatrixWidth; j++)
+		{
+			__utils::GoToXY(ptStartingMapPosition.x + j, ptStartingMapPosition.y + nMapMatrixHeight - 1);
+			_putch(hsSymbols[nMapMatrix[nMapMatrixHeight - 1][j]]);
+		}
+			
 	}
 
 	return 0;
