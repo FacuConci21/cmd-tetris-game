@@ -4,6 +4,23 @@
 #include <Windows.h>
 #include <conio.h>
 
+#ifndef __UTILS_H
+#define __UTILS_H
+
+#define KEY_ARROW_UP 72
+#define KEY_ARROW_DOWN 80
+#define KEY_ARROW_RIGHT 77
+#define KEY_ARROW_LEFT 75
+
+#define KEY_W 119
+#define KEY_S 115
+#define KEY_A 97
+#define KEY_D 100
+
+#define KEY_ENTER 13
+#define KEY_ESCAPE 27
+#define KEY_SPACEBAR 32
+
 namespace __utils
 {
 
@@ -52,3 +69,5 @@ namespace __utils
     };
 
 }
+
+#endif
