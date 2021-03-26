@@ -19,6 +19,8 @@ public:
 	Shape(__utils::SPoint, __utils::SSize);
 	~Shape() {};
 
+	std::array<short, 3 * 3> nsShape2;
+
 	int X();
 	int Y();
 	int Width();
@@ -52,7 +54,7 @@ public:
 	// 2x2 shapes.
 	static std::array<short, 2 * 2> nszShape3;
 
-
+	static short* rotate(short *, size_t);
 };
 
 #endif // !SHAPE_H

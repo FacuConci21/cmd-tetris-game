@@ -6,6 +6,7 @@
 #include <string>
 #include <math.h>
 #include <thread>
+#include <ctime>
 
 #include "utils.h"
 #include "Shape.h"

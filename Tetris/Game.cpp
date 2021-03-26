@@ -11,6 +11,7 @@ int Game::Main()
 	array<array<short, nMapMatrixWidth>, nMapMatrixHeight> nMapMatrix;
 	Shape cShape({ ptStartingMapPosition.x + (int) (nMapMatrixWidth/2), ptStartingMapPosition.y },
 		{ nMapMatrixWidth - 2, nMapMatrixHeight - 1 });
+	short nRotationRatio = 0;
 
 	/*		INITIALIZING MAP MATRIX		 */
 	for (size_t i = 0; i < nMapMatrixHeight; i++)
@@ -27,7 +28,6 @@ int Game::Main()
 	{
 		nMapMatrix[nMapMatrixHeight-1][j] = 1;
 	}
-
 
 	/*		DISPLAY	MAP		*/
 
@@ -47,7 +47,7 @@ int Game::Main()
 	{
 		/*		TIMING AND INPUTS		*/
 		
-		this_thread::sleep_for(100ms);
+		this_thread::sleep_for(1000ms);
 
 		while (_kbhit())
 				{
@@ -66,6 +66,26 @@ int Game::Main()
 
 		/*		GAME LOGIC				*/
 
+		if (nRotationRatio==1)
+		{
+			const size_t nSquareRoot = (size_t)sqrt(cShape.nszShape2.size());
+			size_t nShapeIndex = 0, nCpyIndex;
+
+			for (size_t r = 0; r < nSquareRoot; r++)
+			{
+				for (size_t c = 0; c < nSquareRoot; c++)
+				{
+					nCpyIndex = (Shape::nszShape2.size() - nSquareRoot) + r - (c * nSquareRoot);
+					cShape.nsShape2[nShapeIndex] = Shape::nszShape2[nCpyIndex];
+					nShapeIndex++;
+				}
+			}
+			nRotationRatio--;
+		}
+		else
+		{
+			nRotationRatio++;
+		}
 		
 
 		cShape.IncrementY();
@@ -75,7 +95,7 @@ int Game::Main()
 		ClearRegion({ ptStartingMapPosition.x + 1, ptStartingMapPosition.y },
 			{ cShape.X() + (int)sqrt(Shape::nszShape2.size()), cShape.Y() + (int)sqrt(Shape::nszShape2.size()) });
 
-		DisplayShape(Shape::nszShape2.data(), Shape::nszShape2.size(), cShape.X(), cShape.Y());
+		DisplayShape(cShape.nsShape2.data(), cShape.nsShape2.size(), cShape.X(), cShape.Y());
 
 		// draw floor
 

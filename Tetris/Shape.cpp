@@ -3,7 +3,8 @@
 Shape::Shape(__utils::SPoint _ptShapesStartingPoint, __utils::SSize _sShapesLimits) :
 	ptShapesStartingPoint(_ptShapesStartingPoint),
 	ptShapesCurrentPoint(_ptShapesStartingPoint),
-	sShapesLimits(_sShapesLimits)
+	sShapesLimits(_sShapesLimits),
+	nsShape2(nszShape2)
 	{};
 
 int Shape::X()
@@ -36,3 +37,18 @@ std::array<short, 3 * 3> Shape::nszShape6 = { 0,0,0,6,0,0,6,6,6 };
 
 std::array<short, 2 * 2> Shape::nszShape3 = { 3,3,3,3 };
 
+short* Shape::rotate(short * ptrShape, size_t nShapeSize)
+{
+	const size_t nAuxArraySize = nShapeSize;
+	const size_t nSquareRoot = (size_t)sqrt(nShapeSize);
+
+	for (size_t c = 0; c < nSquareRoot ; c++)
+	{
+		for (size_t f = 0; f < nSquareRoot; f ++ )
+		{
+
+		}
+	}
+	 
+	return ptrShape;
+}
