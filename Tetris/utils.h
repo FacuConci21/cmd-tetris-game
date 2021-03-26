@@ -38,6 +38,13 @@ namespace __utils
         const int height;
     };
 
+    template <class Ty>
+    struct SArrayPtr
+    {
+        Ty* data;
+        size_t size;
+    };
+
     class Cursor
     {
         SPoint ptStartPosition;

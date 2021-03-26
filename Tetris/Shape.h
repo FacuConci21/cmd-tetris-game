@@ -30,10 +30,13 @@ public:
 	Shape(__utils::SPoint, __utils::SSize);
 	~Shape() {};
 
-	std::array<short, 3 * 3> ns_shape2;
-	std::array<short, 4 * 4> ns_shape4;
+	std::array<__utils::SArrayPtr<short> , 5> ptrsMemberShapes;
+
+	std::array<short, 3 * 3> ns_shape1;
+	std::array<short, 2 * 2> ns_shape2;
+	std::array<short, 4 * 4> ns_shape3;
+	std::array<short, 3 * 3> ns_shape4;
 	std::array<short, 3 * 3> ns_shape5;
-	std::array<short, 3 * 3> ns_shape6;
 
 	int X();
 	int Y();
@@ -58,17 +61,19 @@ public:
 	}
 
 	// 4x4 shapes.
-	static std::array<short, 4 * 4> nszShape4;
+	static std::array<short, 4 * 4> nszShape3;
 
 	// 3x3 shapes.
-	static std::array<short, 3 * 3> nszShape2;
+	static std::array<short, 3 * 3> nszShape1;
+	static std::array<short, 3 * 3> nszShape4;
 	static std::array<short, 3 * 3> nszShape5;
-	static std::array<short, 3 * 3> nszShape6;
 
 	// 2x2 shapes.
-	static std::array<short, 2 * 2> nszShape3;
+	static std::array<short, 2 * 2> nszShape2;
 
-	static short* Rotate(short *, size_t, short);
+	static std::array<short*, 5> ptrsStaticShapes;
+
+	static short* Rotate(short *, size_t, short, int);
 };
 
 #endif // !SHAPE_H

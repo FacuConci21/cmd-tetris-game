@@ -1,6 +1,6 @@
 #include "Game.h"
 
-string Game::hsSymbols = " #ABCDEF";
+string Game::hsSymbols = " ABCDE#";
 
 int Game::Main()
 {
@@ -12,12 +12,13 @@ int Game::Main()
 	Shape cShape({ ptStartingMapPosition.x + (int)(nMapMatrixWidth / 2), ptStartingMapPosition.y - 1 },
 		{ nMapMatrixWidth - 2, nMapMatrixHeight - 1 });
 	short nRotationRatio = 0;
+	int nCurrentShape = 2;
 
 	/*		INITIALIZING MAP MATRIX		 */
 	for (size_t i = 0; i < nMapMatrixHeight; i++)
 	{
-		nMapMatrix[i][0] = 1;
-		nMapMatrix[i][nMapMatrixWidth-1] = 1;
+		nMapMatrix[i][0] = 6;
+		nMapMatrix[i][nMapMatrixWidth-1] = 6;
 
 		for (size_t j = 1; j < (nMapMatrixWidth-1) ; j++)
 		{
@@ -26,7 +27,7 @@ int Game::Main()
 	}
 	for (size_t j = 1; j < nMapMatrixWidth ; j++)
 	{
-		nMapMatrix[nMapMatrixHeight-1][j] = 1;
+		nMapMatrix[nMapMatrixHeight-1][j] = 6;
 	}
 
 	/*		DISPLAY	MAP		*/
@@ -40,6 +41,8 @@ int Game::Main()
 			_putch( hsSymbols[nMapMatrix[i][j]]);
 		}
 	}
+
+	srand((int)time(0));
 
 	/*		GAME LOOP		*/
 
@@ -71,16 +74,19 @@ int Game::Main()
 
 		/*		GAME LOGIC				*/
 
-		Shape::Rotate(cShape.ns_shape6.data(), cShape.ns_shape6.size(), nRotationRatio);
+		nCurrentShape = (rand() % 3) + 2;
+
+		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data , cShape.ptrsMemberShapes[nCurrentShape].size , nRotationRatio, nCurrentShape);
 
 		cShape.IncrementY();
 
 		/*		DISPLAY					*/
 
 		ClearRegion({ ptStartingMapPosition.x + 1, ptStartingMapPosition.y },
-			{ cShape.X() + (int)sqrt(Shape::nszShape6.size()), cShape.Y() + (int)sqrt(Shape::nszShape6.size()) });
+			{ cShape.X() + (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size),
+			cShape.Y() + (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size) });
 
-		DisplayShape(cShape.ns_shape6.data(), cShape.ns_shape6.size(), cShape.X(), cShape.Y());
+		DisplayShape(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, cShape.X(), cShape.Y());
 
 		// draw floor
 
