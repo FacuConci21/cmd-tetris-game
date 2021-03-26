@@ -68,7 +68,8 @@ int Game::Main()
 
 		if (nRotationRatio==1)
 		{
-			const size_t nSquareRoot = (size_t)sqrt(cShape.nszShape2.size());
+			Shape::Rotate(cShape.ns_shape4.data(), cShape.ns_shape4.size());
+			/*const size_t nSquareRoot = (size_t)sqrt(cShape.nszShape2.size());
 			size_t nShapeIndex = 0, nCpyIndex;
 
 			for (size_t r = 0; r < nSquareRoot; r++)
@@ -79,7 +80,7 @@ int Game::Main()
 					cShape.nsShape2[nShapeIndex] = Shape::nszShape2[nCpyIndex];
 					nShapeIndex++;
 				}
-			}
+			}*/
 			nRotationRatio--;
 		}
 		else
@@ -93,9 +94,9 @@ int Game::Main()
 		/*		DISPLAY					*/
 
 		ClearRegion({ ptStartingMapPosition.x + 1, ptStartingMapPosition.y },
-			{ cShape.X() + (int)sqrt(Shape::nszShape2.size()), cShape.Y() + (int)sqrt(Shape::nszShape2.size()) });
+			{ cShape.X() + (int)sqrt(Shape::nszShape4.size()), cShape.Y() + (int)sqrt(Shape::nszShape4.size()) });
 
-		DisplayShape(cShape.nsShape2.data(), cShape.nsShape2.size(), cShape.X(), cShape.Y());
+		DisplayShape(cShape.ns_shape4.data(), cShape.ns_shape4.size(), cShape.X(), cShape.Y());
 
 		// draw floor
 

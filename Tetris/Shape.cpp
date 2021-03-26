@@ -4,7 +4,10 @@ Shape::Shape(__utils::SPoint _ptShapesStartingPoint, __utils::SSize _sShapesLimi
 	ptShapesStartingPoint(_ptShapesStartingPoint),
 	ptShapesCurrentPoint(_ptShapesStartingPoint),
 	sShapesLimits(_sShapesLimits),
-	nsShape2(nszShape2)
+	ns_shape2(nszShape2),
+	ns_shape4(nszShape4),
+	ns_shape5(nszShape5),
+	ns_shape6(nszShape6)
 	{};
 
 int Shape::X()
@@ -37,16 +40,18 @@ std::array<short, 3 * 3> Shape::nszShape6 = { 0,0,0,6,0,0,6,6,6 };
 
 std::array<short, 2 * 2> Shape::nszShape3 = { 3,3,3,3 };
 
-short* Shape::rotate(short * ptrShape, size_t nShapeSize)
+short* Shape::Rotate(short * ptrShape, size_t nShapeSize)
 {
-	const size_t nAuxArraySize = nShapeSize;
 	const size_t nSquareRoot = (size_t)sqrt(nShapeSize);
+	size_t nShapeIndex = 0, nCpyIndex;
 
-	for (size_t c = 0; c < nSquareRoot ; c++)
+	for (size_t r = 0; r < nSquareRoot; r++)
 	{
-		for (size_t f = 0; f < nSquareRoot; f ++ )
+		for (size_t c = 0; c < nSquareRoot; c++)
 		{
-
+			nCpyIndex = (nShapeSize - nSquareRoot) + r - (c * nSquareRoot);
+			ptrShape[nShapeIndex] = Shape::nszShape4[nCpyIndex];
+			nShapeIndex++;
 		}
 	}
 	 
