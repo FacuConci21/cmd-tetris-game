@@ -14,14 +14,14 @@ class Shape
 	__utils::SPoint ptShapesCurrentPoint;
 	__utils::SSize sShapesLimits;
 
-	inline size_t RotationFormula(size_t r, size_t c, int w, int ratio)
+	static inline size_t RotationFormula(size_t r, size_t c, int w, int ratio)
 	{
 		switch (ratio)
 		{
 		case 0: return (r * w) + c;
 		case 1: return (w * (w - 1)) + r - (c * w);
 		case 2: return ((w * w) - 1) - (w * r) - c;
-		case 3: return (w - 1) + r + (c * w);
+		case 3: return (w - 1) - r + (c * w);
 		}
 	}
 
@@ -68,7 +68,7 @@ public:
 	// 2x2 shapes.
 	static std::array<short, 2 * 2> nszShape3;
 
-	static short* Rotate(short *, size_t);
+	static short* Rotate(short *, size_t, short);
 };
 
 #endif // !SHAPE_H

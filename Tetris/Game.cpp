@@ -9,7 +9,7 @@ int Game::Main()
 	const size_t nMapMatrixWidth = 18;
 	const size_t nMapMatrixHeight = 20;
 	array<array<short, nMapMatrixWidth>, nMapMatrixHeight> nMapMatrix;
-	Shape cShape({ ptStartingMapPosition.x + (int) (nMapMatrixWidth/2), ptStartingMapPosition.y },
+	Shape cShape({ ptStartingMapPosition.x + (int)(nMapMatrixWidth / 2), ptStartingMapPosition.y - 1 },
 		{ nMapMatrixWidth - 2, nMapMatrixHeight - 1 });
 	short nRotationRatio = 0;
 
@@ -59,6 +59,11 @@ int Game::Main()
 					case KEY_D:
 						cShape.IncrementX();
 						break;
+					case KEY_ENTER:
+						nRotationRatio++;
+						if (nRotationRatio > 3)
+							nRotationRatio = 0;
+						break;
 					case KEY_ESCAPE:
 						return 0;
 					}
@@ -66,37 +71,16 @@ int Game::Main()
 
 		/*		GAME LOGIC				*/
 
-		if (nRotationRatio==1)
-		{
-			Shape::Rotate(cShape.ns_shape4.data(), cShape.ns_shape4.size());
-			/*const size_t nSquareRoot = (size_t)sqrt(cShape.nszShape2.size());
-			size_t nShapeIndex = 0, nCpyIndex;
-
-			for (size_t r = 0; r < nSquareRoot; r++)
-			{
-				for (size_t c = 0; c < nSquareRoot; c++)
-				{
-					nCpyIndex = (Shape::nszShape2.size() - nSquareRoot) + r - (c * nSquareRoot);
-					cShape.nsShape2[nShapeIndex] = Shape::nszShape2[nCpyIndex];
-					nShapeIndex++;
-				}
-			}*/
-			nRotationRatio--;
-		}
-		else
-		{
-			nRotationRatio++;
-		}
-		
+		Shape::Rotate(cShape.ns_shape6.data(), cShape.ns_shape6.size(), nRotationRatio);
 
 		cShape.IncrementY();
 
 		/*		DISPLAY					*/
 
 		ClearRegion({ ptStartingMapPosition.x + 1, ptStartingMapPosition.y },
-			{ cShape.X() + (int)sqrt(Shape::nszShape4.size()), cShape.Y() + (int)sqrt(Shape::nszShape4.size()) });
+			{ cShape.X() + (int)sqrt(Shape::nszShape6.size()), cShape.Y() + (int)sqrt(Shape::nszShape6.size()) });
 
-		DisplayShape(cShape.ns_shape4.data(), cShape.ns_shape4.size(), cShape.X(), cShape.Y());
+		DisplayShape(cShape.ns_shape6.data(), cShape.ns_shape6.size(), cShape.X(), cShape.Y());
 
 		// draw floor
 

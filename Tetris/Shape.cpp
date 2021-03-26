@@ -40,7 +40,7 @@ std::array<short, 3 * 3> Shape::nszShape6 = { 0,0,0,6,0,0,6,6,6 };
 
 std::array<short, 2 * 2> Shape::nszShape3 = { 3,3,3,3 };
 
-short* Shape::Rotate(short * ptrShape, size_t nShapeSize)
+short* Shape::Rotate(short * ptrShape, size_t nShapeSize, short nRotationRatio)
 {
 	const size_t nSquareRoot = (size_t)sqrt(nShapeSize);
 	size_t nShapeIndex = 0, nCpyIndex;
@@ -49,8 +49,8 @@ short* Shape::Rotate(short * ptrShape, size_t nShapeSize)
 	{
 		for (size_t c = 0; c < nSquareRoot; c++)
 		{
-			nCpyIndex = (nShapeSize - nSquareRoot) + r - (c * nSquareRoot);
-			ptrShape[nShapeIndex] = Shape::nszShape4[nCpyIndex];
+			nCpyIndex = RotationFormula(r, c, nSquareRoot, nRotationRatio);
+			ptrShape[nShapeIndex] = Shape::nszShape6[nCpyIndex];
 			nShapeIndex++;
 		}
 	}
