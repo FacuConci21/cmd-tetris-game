@@ -44,6 +44,9 @@ int Game::Main()
 
 	srand((int)time(0));
 
+	nCurrentShape = (rand() % 3) + 2;
+
+
 	/*		GAME LOOP		*/
 
 	while (bInGame)
@@ -74,7 +77,6 @@ int Game::Main()
 
 		/*		GAME LOGIC				*/
 
-		nCurrentShape = (rand() % 3) + 2;
 
 		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data , cShape.ptrsMemberShapes[nCurrentShape].size , nRotationRatio, nCurrentShape);
 
