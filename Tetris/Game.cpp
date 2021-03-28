@@ -9,7 +9,7 @@ int Game::Main()
 	const size_t nMapMatrixWidth = 18;
 	const size_t nMapMatrixHeight = 20;
 	array<array<short, nMapMatrixWidth>, nMapMatrixHeight> nMapMatrix;
-	Shape cShape({ ptStartingMapPosition.x + (int)(nMapMatrixWidth / 2), ptStartingMapPosition.y - 1 },
+	Shape cShape({ ptStartingMapPosition.x + (int)(nMapMatrixWidth / 2), ptStartingMapPosition.y },
 		{ nMapMatrixWidth - 2, nMapMatrixHeight - 1 });
 	short nRotationRatio = 0;
 	int nCurrentShape = 2;
@@ -30,74 +30,71 @@ int Game::Main()
 		nMapMatrix[nMapMatrixHeight-1][j] = 6;
 	}
 
-	/*		DISPLAY	MAP		*/
-
-	for (size_t i = 0; i < nMapMatrixHeight; i++)
-	{
-		__utils::GoToXY(ptStartingMapPosition.x, ptStartingMapPosition.y + i);
-
-		for (size_t j = 0; j < nMapMatrixWidth; j++)
-		{
-			_putch( hsSymbols[nMapMatrix[i][j]]);
-		}
-	}
-
+	
 	srand((int)time(0));
 
-	nCurrentShape = (rand() % 3) + 2;
+	nCurrentShape = (rand() % 4) + 1;
 
 
 	/*		GAME LOOP		*/
 
 	while (bInGame)
 	{
-		/*		TIMING AND INPUTS		*/
+		/*			TIMING AND INPUTS		*/
 		
-		this_thread::sleep_for(1000ms);
+		this_thread::sleep_for(500ms); // es el tiempo mas  optimo hasta ahora.
 
 		while (_kbhit())
-				{
-					switch (_getch())
-					{
-					case KEY_A:
-						cShape.DecrementX();
-						break;
-					case KEY_D:
-						cShape.IncrementX();
-						break;
-					case KEY_ENTER:
-						nRotationRatio++;
-						if (nRotationRatio > 3)
-							nRotationRatio = 0;
-						break;
-					case KEY_ESCAPE:
-						return 0;
-					}
+		{
+			switch (_getch())
+			{
+			case KEY_A:
+				cShape.DecrementX();
+				break;
+			case KEY_D:
+				cShape.IncrementX();
+				break;
+			case KEY_ENTER:
+				nRotationRatio++;
+				if (nRotationRatio > 3)
+					nRotationRatio = 0;
+				break;
+			case KEY_ESCAPE:
+				return 0;
 			}
+		}
 
-		/*		GAME LOGIC				*/
+		/*			GAME LOGIC				*/
 
+		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, 
+			nRotationRatio, nCurrentShape);
 
-		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data , cShape.ptrsMemberShapes[nCurrentShape].size , nRotationRatio, nCurrentShape);
+		/*			DISPLAY					*/
 
-		cShape.IncrementY();
+		// Display map.
 
-		/*		DISPLAY					*/
+		for (size_t i = 0; i < nMapMatrixHeight - 1; i++)
+		{
+			__utils::GoToXY(ptStartingMapPosition.x, ptStartingMapPosition.y + i);
 
-		ClearRegion({ ptStartingMapPosition.x + 1, ptStartingMapPosition.y },
-			{ cShape.X() + (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size),
-			cShape.Y() + (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size) });
+			for (size_t j = 0; j < nMapMatrixWidth; j++)
+			{
+				_putch(hsSymbols[nMapMatrix[i][j]]);
+			}
+		}
 
 		DisplayShape(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, cShape.X(), cShape.Y());
 
-		// draw floor
+		// Draw floor
 
-		for (size_t j = 1; j < nMapMatrixWidth; j++)
+		for (size_t j = 0; j < nMapMatrixWidth; j++)
 		{
 			__utils::GoToXY(ptStartingMapPosition.x + j, ptStartingMapPosition.y + nMapMatrixHeight - 1);
 			_putch(hsSymbols[nMapMatrix[nMapMatrixHeight - 1][j]]);
 		}
-			
+
+		// Increment Y coord of Shape class object to define its next position.
+		cShape.IncrementY();	
 	}
 
 	return 0;
