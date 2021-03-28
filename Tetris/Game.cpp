@@ -4,15 +4,20 @@ string Game::hsSymbols = " ABCDE#";
 
 int Game::Main()
 {
-	bool bInGame = true;
 	__utils::SPoint ptStartingMapPosition = { 30, 5 };
 	const size_t nMapMatrixWidth = 18;
 	const size_t nMapMatrixHeight = 20;
 	array<array<short, nMapMatrixWidth>, nMapMatrixHeight> nMapMatrix;
-	Shape cShape({ ptStartingMapPosition.x + (int)(nMapMatrixWidth / 2), ptStartingMapPosition.y },
-		{ nMapMatrixWidth - 2, nMapMatrixHeight - 1 });
+
+	Shape cShape({ ptStartingMapPosition.x + 1, ptStartingMapPosition.y },
+		{ ptStartingMapPosition.x + (int)(nMapMatrixWidth / 2), ptStartingMapPosition.y },
+		{ nMapMatrixWidth - 2, nMapMatrixHeight });
+
 	short nRotationRatio = 0;
 	int nCurrentShape = 2;
+	bool bInFloor = false;
+	bool bInGame = true;
+	int nSqrtCurrentShapeSize;
 
 	/*		INITIALIZING MAP MATRIX		 */
 	for (size_t i = 0; i < nMapMatrixHeight; i++)
@@ -34,6 +39,7 @@ int Game::Main()
 	srand((int)time(0));
 
 	nCurrentShape = (rand() % 4) + 1;
+	nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
 
 
 	/*		GAME LOOP		*/
@@ -52,7 +58,7 @@ int Game::Main()
 				cShape.DecrementX();
 				break;
 			case KEY_D:
-				cShape.IncrementX();
+				cShape.IncrementX(nSqrtCurrentShapeSize);
 				break;
 			case KEY_ENTER:
 				nRotationRatio++;
@@ -66,6 +72,13 @@ int Game::Main()
 
 		/*			GAME LOGIC				*/
 
+		if (bInFloor)
+		{
+			nCurrentShape = (rand() % 4) + 1;
+			nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
+			cShape.RestartCurrentPoint();
+		}
+
 		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, 
 			nRotationRatio, nCurrentShape);
 
@@ -76,7 +89,6 @@ int Game::Main()
 		for (size_t i = 0; i < nMapMatrixHeight - 1; i++)
 		{
 			__utils::GoToXY(ptStartingMapPosition.x, ptStartingMapPosition.y + i);
-
 			for (size_t j = 0; j < nMapMatrixWidth; j++)
 			{
 				_putch(hsSymbols[nMapMatrix[i][j]]);
@@ -87,14 +99,14 @@ int Game::Main()
 
 		// Draw floor
 
+		__utils::GoToXY(ptStartingMapPosition.x, ptStartingMapPosition.y + nMapMatrixHeight - 1);
 		for (size_t j = 0; j < nMapMatrixWidth; j++)
 		{
-			__utils::GoToXY(ptStartingMapPosition.x + j, ptStartingMapPosition.y + nMapMatrixHeight - 1);
 			_putch(hsSymbols[nMapMatrix[nMapMatrixHeight - 1][j]]);
 		}
 
 		// Increment Y coord of Shape class object to define its next position.
-		cShape.IncrementY();	
+		bInFloor = cShape.IncrementY(nSqrtCurrentShapeSize);
 	}
 
 	return 0;

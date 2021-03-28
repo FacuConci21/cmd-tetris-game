@@ -10,6 +10,7 @@
 
 class Shape
 {
+	__utils::SPoint ptTopLeft;
 	__utils::SPoint ptShapesStartingPoint;
 	__utils::SPoint ptShapesCurrentPoint;
 	__utils::SSize sShapesLimits;
@@ -27,7 +28,7 @@ class Shape
 
 public:
 
-	Shape(__utils::SPoint, __utils::SSize);
+	Shape(__utils::SPoint, __utils::SPoint, __utils::SSize);
 	~Shape() {};
 
 	std::array<__utils::SArrayPtr<short> , 5> ptrsMemberShapes;
@@ -43,21 +44,34 @@ public:
 	int Width();
 	int Height();
 
-	inline void IncrementX()
+	inline void IncrementX(int nSqrtCurrentShapeSize)
 	{
 		ptShapesCurrentPoint.x++;
+		if ((ptTopLeft.x + sShapesLimits.width) <= (ptShapesCurrentPoint.x + nSqrtCurrentShapeSize))
+			ptShapesCurrentPoint.x = ptTopLeft.x + sShapesLimits.width - nSqrtCurrentShapeSize;
 	}
-	inline void IncrementY()
+	inline bool IncrementY(int nSqrtCurrentShapeSize)
 	{
 		ptShapesCurrentPoint.y++;
+		if ((ptTopLeft.y + sShapesLimits.height) == (ptShapesCurrentPoint.y + nSqrtCurrentShapeSize)) return true;
+
+		return false;
 	}
 	inline void DecrementX()
 	{
 		ptShapesCurrentPoint.x--;
+		if (ptTopLeft.x >= ptShapesCurrentPoint.x)
+			ptShapesCurrentPoint.x = ptTopLeft.x;
 	}
 	inline void DecrementY()
 	{
 		ptShapesCurrentPoint.y--;
+	}
+
+	void RestartCurrentPoint()
+	{
+		ptShapesCurrentPoint.x = ptShapesStartingPoint.x;
+		ptShapesCurrentPoint.y = ptShapesStartingPoint.y;
 	}
 
 	// 4x4 shapes.

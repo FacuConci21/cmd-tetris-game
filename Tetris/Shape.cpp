@@ -1,6 +1,7 @@
 #include "Shape.h"
 
-Shape::Shape(__utils::SPoint _ptShapesStartingPoint, __utils::SSize _sShapesLimits) :
+Shape::Shape(__utils::SPoint _ptTopLeft, __utils::SPoint _ptShapesStartingPoint, __utils::SSize _sShapesLimits) :
+	ptTopLeft(_ptTopLeft),
 	ptShapesStartingPoint(_ptShapesStartingPoint),
 	ptShapesCurrentPoint(_ptShapesStartingPoint),
 	sShapesLimits(_sShapesLimits),
@@ -37,7 +38,7 @@ inline int Shape::Height()
 	return sShapesLimits.height;
 }
 
-std::array<short, 4 * 4> Shape::nszShape3 = { 0,0,3,0, 0,0,3,0, 0,0,3,0, 0,0,3,0 };
+std::array<short, 4 * 4> Shape::nszShape3 = { 0,0,0,3, 0,0,0,3, 0,0,0,3, 0,0,0,3 };
 
 std::array<short, 3 * 3> Shape::nszShape1 = { 0,1,0,1,1,0,1,0,0 };
 
