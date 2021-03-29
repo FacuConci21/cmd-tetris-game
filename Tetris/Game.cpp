@@ -1,6 +1,6 @@
 #include "Game.h"
 
-string Game::hsSymbols = " ABCDE#";
+const string Game::hsSymbols = " ABCDE#";
 
 int Game::Main()
 {
@@ -15,7 +15,7 @@ int Game::Main()
 
 	short nRotationRatio = 0;
 	int nCurrentShape = 2;
-	bool bInFloor = false;
+	bool bPieceFix = false;
 	bool bInGame = true;
 	int nSqrtCurrentShapeSize;
 
@@ -25,20 +25,15 @@ int Game::Main()
 		nMapMatrix[i][0] = 6;
 		nMapMatrix[i][nMapMatrixWidth-1] = 6;
 
-		for (size_t j = 1; j < (nMapMatrixWidth-1) ; j++)
-		{
-			nMapMatrix[i][j] = 0;
-		}
-	}
-	for (size_t j = 1; j < nMapMatrixWidth ; j++)
-	{
-		nMapMatrix[nMapMatrixHeight-1][j] = 6;
+		for (size_t j = 1; j < (nMapMatrixWidth-1) ; j++) nMapMatrix[i][j] = 0;
 	}
 
-	
+	for (size_t j = 1; j < nMapMatrixWidth ; j++) nMapMatrix[nMapMatrixHeight-1][j] = 6;
+
+	/*		STABLISHING THE FIRST SHAPE TO BE DISPLAYED		*/
 	srand((int)time(0));
 
-	nCurrentShape = (rand() % 4) + 1;
+	nCurrentShape = (rand() % 4);
 	nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
 
 
@@ -48,7 +43,7 @@ int Game::Main()
 	{
 		/*			TIMING AND INPUTS		*/
 		
-		this_thread::sleep_for(500ms); // es el tiempo mas  optimo hasta ahora.
+		this_thread::sleep_for(50ms); // es el tiempo mas  optimo hasta ahora.
 
 		while (_kbhit())
 		{
@@ -62,8 +57,9 @@ int Game::Main()
 				break;
 			case KEY_ENTER:
 				nRotationRatio++;
-				if (nRotationRatio > 3)
-					nRotationRatio = 0;
+
+				if (nRotationRatio > 3) nRotationRatio = 0;
+					
 				break;
 			case KEY_ESCAPE:
 				return 0;
@@ -72,16 +68,29 @@ int Game::Main()
 
 		/*			GAME LOGIC				*/
 
-		if (bInFloor)
+		if (bPieceFix)
 		{
+			int nDifW = (nMapMatrixWidth + ptStartingMapPosition.x) - cShape.X(), 
+				nDifH = (nMapMatrixHeight + ptStartingMapPosition.y) - cShape.Y(), 
+				nShapesIndex = 0, nCellValue ;
+
+			for (size_t r = 0; r < nSqrtCurrentShapeSize; r++)
+			{
+				for (size_t c = 0; c < nSqrtCurrentShapeSize; c++)
+				{
+					nCellValue = cShape.ptrsMemberShapes[nCurrentShape].data[nShapesIndex];
+					if (nCellValue) nMapMatrix[(nMapMatrixHeight - nDifH) + r][(nMapMatrixWidth - nDifW) + c] = nCellValue;
+					nShapesIndex++;
+				}
+			}
 			// TODO: fill map with shape fixed
-			nCurrentShape = (rand() % 4) + 1;
-			nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
+			nCurrentShape = (rand() % 4);
+			nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);/**/
 			cShape.RestartCurrentPoint();
+			bPieceFix = false;
 		}
 
-		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, 
-			nRotationRatio, nCurrentShape);
+		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, nRotationRatio, nCurrentShape);
 
 		/*			DISPLAY					*/
 
@@ -90,24 +99,18 @@ int Game::Main()
 		for (size_t i = 0; i < nMapMatrixHeight - 1; i++)
 		{
 			__utils::GoToXY(ptStartingMapPosition.x, ptStartingMapPosition.y + i);
-			for (size_t j = 0; j < nMapMatrixWidth; j++)
-			{
-				_putch(hsSymbols[nMapMatrix[i][j]]);
-			}
+			for (size_t j = 0; j < nMapMatrixWidth; j++) _putch(hsSymbols[nMapMatrix[i][j]]);
 		}
 
-		DisplayShape(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, cShape.X(), cShape.Y());
+		DisplayShape(cShape.ptrsMemberShapes[nCurrentShape].data, nSqrtCurrentShapeSize, cShape.X(), cShape.Y());
 
 		// Draw floor
 
 		__utils::GoToXY(ptStartingMapPosition.x, ptStartingMapPosition.y + nMapMatrixHeight - 1);
-		for (size_t j = 0; j < nMapMatrixWidth; j++)
-		{
-			_putch(hsSymbols[nMapMatrix[nMapMatrixHeight - 1][j]]);
-		}
-
+		for (size_t j = 0; j < nMapMatrixWidth; j++) _putch(hsSymbols[nMapMatrix[nMapMatrixHeight - 1][j]]);
+			
 		// Increment Y coord of Shape class object to define its next position.
-		bInFloor = cShape.IncrementY(nSqrtCurrentShapeSize);
+		bPieceFix = cShape.IncrementY(nSqrtCurrentShapeSize);
 	}
 
 	return 0;

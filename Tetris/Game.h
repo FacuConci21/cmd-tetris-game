@@ -18,19 +18,20 @@ using namespace std;
 
 class Game
 {
-	static string hsSymbols;
+	static const string hsSymbols;
 
-	static inline void DisplayShape(short* ptrShape, size_t szSizeShape, int x, int y)
+	static inline void DisplayShape(short* ptrShape, size_t nSqrtSizeShape, int x, int y)
 	{
-		size_t i = 0, d = 0 ;
-		for (; i < szSizeShape; i += (size_t) sqrt(szSizeShape))
+		size_t i = 0, d = 0;// _x = x;
+		for (; i < (nSqrtSizeShape*nSqrtSizeShape) ; i += nSqrtSizeShape)
 		{
 			__utils::GoToXY(x, y + d);
-			for (size_t j = 0; j < sqrt(szSizeShape); j++)
+			for (size_t j = 0; j < nSqrtSizeShape ; j++)
 			{
-				_putch(hsSymbols[ptrShape[i + j]]);
+				if (ptrShape[i + j] != 0) _putch(hsSymbols[ptrShape[i + j]]);
+				else _putch(KEY_SPACEBAR);
 			}
-			d++;
+			d++; //_x = x;
 		}
 	}
 

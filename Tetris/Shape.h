@@ -53,15 +53,18 @@ public:
 	inline bool IncrementY(int nSqrtCurrentShapeSize)
 	{
 		ptShapesCurrentPoint.y++;
-		if ((ptTopLeft.y + sShapesLimits.height) == (ptShapesCurrentPoint.y + nSqrtCurrentShapeSize)) return true;
-
+		if ((ptTopLeft.y + sShapesLimits.height) == (ptShapesCurrentPoint.y + nSqrtCurrentShapeSize))
+		{
+			ptShapesCurrentPoint.y--;
+			return true;
+		}
 		return false;
 	}
 	inline void DecrementX()
 	{
 		ptShapesCurrentPoint.x--;
-		if (ptTopLeft.x >= ptShapesCurrentPoint.x)
-			ptShapesCurrentPoint.x = ptTopLeft.x;
+		if (ptTopLeft.x >= ptShapesCurrentPoint.x) ptShapesCurrentPoint.x = ptTopLeft.x;
+			
 	}
 	inline void DecrementY()
 	{
