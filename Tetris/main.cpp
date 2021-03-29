@@ -52,7 +52,5 @@ void LoadGame()
 
 void QuitGame()
 {
-    cout << "nothing to do ..." << endl;
-    if (_getch() == 27)
-        nGameExit = 1;
+    nGameExit = 1;
 }

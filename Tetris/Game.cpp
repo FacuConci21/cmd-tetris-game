@@ -74,6 +74,7 @@ int Game::Main()
 
 		if (bInFloor)
 		{
+			// TODO: fill map with shape fixed
 			nCurrentShape = (rand() % 4) + 1;
 			nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
 			cShape.RestartCurrentPoint();
