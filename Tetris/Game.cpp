@@ -1,12 +1,13 @@
 #include "Game.h"
 
 const string Game::hsSymbols = " ABCDE#";
+const __utils::SPoint Game::ptStartingMapPosition = { 30, 5 };
+const size_t Game::nMapMatrixWidth = 18;
+const size_t Game::nMapMatrixHeight = 20;
 
 int Game::Main()
 {
-	__utils::SPoint ptStartingMapPosition = { 30, 5 };
-	const size_t nMapMatrixWidth = 18;
-	const size_t nMapMatrixHeight = 20;
+	
 	array<array<short, nMapMatrixWidth>, nMapMatrixHeight> nMapMatrix;
 
 	Shape cShape({ ptStartingMapPosition.x + 1, ptStartingMapPosition.y },
@@ -66,7 +67,7 @@ int Game::Main()
 			}
 		}
 
-		/*			GAME LOGIC				*/
+		/*			GAME LOGIC				
 
 		{
 			//size_t nShapeSize = cShape.ptrsMemberShapes[nCurrentShape].size;
@@ -82,32 +83,24 @@ int Game::Main()
 					nShapeElement = cShape.ptrsMemberShapes[nCurrentShape].data[nShapeIndex];
 					nMapElement = nMapMatrix[nMapMatrixHeight - nDifH][nMapMatrixWidth - nDifW - nColumnDecrement];
 
-					if (nShapeElement && nMapElement) bPieceFix = true;
+					if (nShapeElement && nMapElement && !bPieceFix)
+					{
+						bPieceFix = true;
+						break;
+					}
 					
 					nShapeIndex++; nColumnDecrement++;
 				}
 				nColumnDecrement = 0;
 			}
-		}
+		}*/
 
 		if (bPieceFix)
 		{
-			int nDifW = (nMapMatrixWidth + ptStartingMapPosition.x) - cShape.X(), 
-				nDifH = (nMapMatrixHeight + ptStartingMapPosition.y) - cShape.Y(), 
-				nShapesIndex = 0, nCellValue ;
+			FillMapMatrix(&cShape, nMapMatrix, nCurrentShape, nSqrtCurrentShapeSize);
 
-			for (size_t r = 0; r < nSqrtCurrentShapeSize; r++)
-			{
-				for (size_t c = 0; c < nSqrtCurrentShapeSize; c++)
-				{
-					nCellValue = cShape.ptrsMemberShapes[nCurrentShape].data[nShapesIndex];
-					if (nCellValue) nMapMatrix[(nMapMatrixHeight - nDifH) + r][(nMapMatrixWidth - nDifW) + c] = nCellValue;
-					nShapesIndex++;
-				}
-			}
-			// TODO: fill map with shape fixed
 			nCurrentShape = (rand() % 4);
-			nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);/**/
+			nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
 			cShape.RestartCurrentPoint();
 			bPieceFix = false;
 		}

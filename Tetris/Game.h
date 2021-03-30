@@ -19,6 +19,9 @@ using namespace std;
 class Game
 {
 	static const string hsSymbols;
+	static const __utils::SPoint ptStartingMapPosition;
+	static const size_t nMapMatrixWidth;
+	static const size_t nMapMatrixHeight;
 
 	static inline void DisplayShape(short* ptrShape, size_t nSqrtSizeShape, int x, int y)
 	{
@@ -35,15 +38,19 @@ class Game
 		}
 	}
 
-	static inline void ClearRegion(__utils::SPoint ptTopLeft, __utils::SPoint ptBottomRight)
+	static inline void FillMapMatrix(Shape* cShape, array<array<short, 18>, 20> &nMap, int nCurrentShape, int nSqrtShapeSize)
 	{
-		
-		for (int y = 0; y < (ptBottomRight.y - ptTopLeft.y); y++)
+		int nDifW = (nMapMatrixWidth + ptStartingMapPosition.x) - cShape->X(),
+			nDifH = (nMapMatrixHeight + ptStartingMapPosition.y) - cShape->Y(),
+			nShapesIndex = 0, nCellValue;
+
+		for (size_t r = 0; r < nSqrtShapeSize; r++)
 		{
-			for (int x = 0; x < (ptBottomRight.x - ptTopLeft.x); x++)
+			for (size_t c = 0; c < nSqrtShapeSize; c++)
 			{
-				__utils::GoToXY(ptTopLeft.x + x, ptTopLeft.y + y);
-				_putch(' ');
+				nCellValue = cShape->ptrsMemberShapes[nCurrentShape].data[nShapesIndex];
+				if (nCellValue) nMap[(nMapMatrixHeight - nDifH) + r][(nMapMatrixWidth - nDifW) + c] = nCellValue;
+				nShapesIndex++;
 			}
 		}
 	}
