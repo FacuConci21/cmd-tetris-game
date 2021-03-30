@@ -16,7 +16,7 @@ int Game::Main()
 	short nRotationRatio = 0;
 	int nCurrentShape = 2;
 	bool bPieceFix = false;
-	bool bInGame = true;
+	bool bInGame = true; 
 	int nSqrtCurrentShapeSize;
 
 	/*		INITIALIZING MAP MATRIX		 */
@@ -43,7 +43,7 @@ int Game::Main()
 	{
 		/*			TIMING AND INPUTS		*/
 		
-		this_thread::sleep_for(50ms); // es el tiempo mas  optimo hasta ahora.
+		this_thread::sleep_for(100ms); // es el tiempo mas  optimo hasta ahora.
 
 		while (_kbhit())
 		{
@@ -67,6 +67,28 @@ int Game::Main()
 		}
 
 		/*			GAME LOGIC				*/
+
+		{
+			//size_t nShapeSize = cShape.ptrsMemberShapes[nCurrentShape].size;
+
+			int nDifW = (nMapMatrixWidth + ptStartingMapPosition.x) - (cShape.X() + nSqrtCurrentShapeSize),
+				nDifH = (nMapMatrixHeight + ptStartingMapPosition.y) - (cShape.Y() + nSqrtCurrentShapeSize),
+				nShapeIndex = 0, nShapeElement, nMapElement, nColumnDecrement = 0;
+
+			for (int r = nSqrtCurrentShapeSize -1; r >= (int)(nSqrtCurrentShapeSize / 2); r--)
+			{
+				for (int c = nSqrtCurrentShapeSize -1; c >= 0; c--)
+				{
+					nShapeElement = cShape.ptrsMemberShapes[nCurrentShape].data[nShapeIndex];
+					nMapElement = nMapMatrix[nMapMatrixHeight - nDifH][nMapMatrixWidth - nDifW - nColumnDecrement];
+
+					if (nShapeElement && nMapElement) bPieceFix = true;
+					
+					nShapeIndex++; nColumnDecrement++;
+				}
+				nColumnDecrement = 0;
+			}
+		}
 
 		if (bPieceFix)
 		{

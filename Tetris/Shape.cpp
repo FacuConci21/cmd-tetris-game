@@ -63,7 +63,7 @@ short* Shape::Rotate(short * ptrShape, size_t nShapeSize, short nRotationRatio, 
 			nCpyIndex = RotationFormula(r, c, nSquareRoot, nRotationRatio);
 			ptrShape[nShapeIndex] = Shape::ptrsStaticShapes[nCurrentShape][nCpyIndex];
 			nShapeIndex++;
-		}
+		} 
 	}
 	 
 	return ptrShape;
