@@ -28,14 +28,30 @@ int Shape::Y()
 	return ptShapesCurrentPoint.y;
 }
 
-inline int Shape::Width()
+int Shape::Width()
 {
 	return sShapesLimits.width;
 }
 
-inline int Shape::Height()
+int Shape::Height()
 {
 	return sShapesLimits.height;
+}
+
+bool Shape::IsTouchingFloor(int nSqrtCurrentShapeSize)
+{
+	if ((ptTopLeft.y + sShapesLimits.height) == (ptShapesCurrentPoint.y + nSqrtCurrentShapeSize))
+	{
+		ptShapesCurrentPoint.y--;
+		return true;
+	}
+	return false;
+}
+
+void Shape::RestartCurrentPoint()
+{
+	ptShapesCurrentPoint.x = ptShapesStartingPoint.x;
+	ptShapesCurrentPoint.y = ptShapesStartingPoint.y;
 }
 
 std::array<short, 4 * 4> Shape::nszShape3 = { 0,0,0,3, 0,0,0,3, 0,0,0,3, 0,0,0,3 };

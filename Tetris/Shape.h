@@ -50,15 +50,10 @@ public:
 		if ((ptTopLeft.x + sShapesLimits.width) <= (ptShapesCurrentPoint.x + nSqrtCurrentShapeSize))
 			ptShapesCurrentPoint.x = ptTopLeft.x + sShapesLimits.width - nSqrtCurrentShapeSize;
 	}
-	inline bool IncrementY(int nSqrtCurrentShapeSize)
+	inline void IncrementY()
 	{
 		ptShapesCurrentPoint.y++;
-		if ((ptTopLeft.y + sShapesLimits.height) == (ptShapesCurrentPoint.y + nSqrtCurrentShapeSize))
-		{
-			ptShapesCurrentPoint.y--;
-			return true;
-		}
-		return false;
+		
 	}
 	inline void DecrementX()
 	{
@@ -66,16 +61,10 @@ public:
 		if (ptTopLeft.x >= ptShapesCurrentPoint.x) ptShapesCurrentPoint.x = ptTopLeft.x;
 			
 	}
-	inline void DecrementY()
-	{
-		ptShapesCurrentPoint.y--;
-	}
 
-	void RestartCurrentPoint()
-	{
-		ptShapesCurrentPoint.x = ptShapesStartingPoint.x;
-		ptShapesCurrentPoint.y = ptShapesStartingPoint.y;
-	}
+	bool IsTouchingFloor(int);
+
+	void RestartCurrentPoint();
 
 	// 4x4 shapes.
 	static std::array<short, 4 * 4> nszShape3;

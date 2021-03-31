@@ -2,8 +2,6 @@
 
 const string Game::hsSymbols = " ABCDE#";
 const __utils::SPoint Game::ptStartingMapPosition = { 30, 5 };
-const size_t Game::nMapMatrixWidth = 18;
-const size_t Game::nMapMatrixHeight = 20;
 
 int Game::Main()
 {
@@ -67,33 +65,13 @@ int Game::Main()
 			}
 		}
 
-		/*			GAME LOGIC				
+		/*			GAME LOGIC				*/
 
-		{
-			//size_t nShapeSize = cShape.ptrsMemberShapes[nCurrentShape].size;
+		// comprueba que la figura haya tocado el piso.
+		bPieceFix = cShape.IsTouchingFloor(nSqrtCurrentShapeSize);
 
-			int nDifW = (nMapMatrixWidth + ptStartingMapPosition.x) - (cShape.X() + nSqrtCurrentShapeSize),
-				nDifH = (nMapMatrixHeight + ptStartingMapPosition.y) - (cShape.Y() + nSqrtCurrentShapeSize),
-				nShapeIndex = 0, nShapeElement, nMapElement, nColumnDecrement = 0;
-
-			for (int r = nSqrtCurrentShapeSize -1; r >= (int)(nSqrtCurrentShapeSize / 2); r--)
-			{
-				for (int c = nSqrtCurrentShapeSize -1; c >= 0; c--)
-				{
-					nShapeElement = cShape.ptrsMemberShapes[nCurrentShape].data[nShapeIndex];
-					nMapElement = nMapMatrix[nMapMatrixHeight - nDifH][nMapMatrixWidth - nDifW - nColumnDecrement];
-
-					if (nShapeElement && nMapElement && !bPieceFix)
-					{
-						bPieceFix = true;
-						break;
-					}
-					
-					nShapeIndex++; nColumnDecrement++;
-				}
-				nColumnDecrement = 0;
-			}
-		}*/
+		// de no tocar el piso comprueba que no toque otra figura en el mapa.
+		if (!bPieceFix) bPieceFix = ShapesCollison(&cShape, nMapMatrix, nCurrentShape, nSqrtCurrentShapeSize);
 
 		if (bPieceFix)
 		{
@@ -125,7 +103,7 @@ int Game::Main()
 		for (size_t j = 0; j < nMapMatrixWidth; j++) _putch(hsSymbols[nMapMatrix[nMapMatrixHeight - 1][j]]);
 			
 		// Increment Y coord of Shape class object to define its next position.
-		bPieceFix = cShape.IncrementY(nSqrtCurrentShapeSize);
+		cShape.IncrementY();
 	}
 
 	return 0;

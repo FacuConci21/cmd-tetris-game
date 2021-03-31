@@ -20,8 +20,8 @@ class Game
 {
 	static const string hsSymbols;
 	static const __utils::SPoint ptStartingMapPosition;
-	static const size_t nMapMatrixWidth;
-	static const size_t nMapMatrixHeight;
+	static const size_t nMapMatrixWidth = 18;
+	static const size_t nMapMatrixHeight = 20;
 
 	static inline void DisplayShape(short* ptrShape, size_t nSqrtSizeShape, int x, int y)
 	{
@@ -38,7 +38,8 @@ class Game
 		}
 	}
 
-	static inline void FillMapMatrix(Shape* cShape, array<array<short, 18>, 20> &nMap, int nCurrentShape, int nSqrtShapeSize)
+	static inline void FillMapMatrix(Shape* cShape, array<array<short, nMapMatrixWidth>, nMapMatrixHeight > &nMap,
+		int nCurrentShape, int nSqrtShapeSize)
 	{
 		int nDifW = (nMapMatrixWidth + ptStartingMapPosition.x) - cShape->X(),
 			nDifH = (nMapMatrixHeight + ptStartingMapPosition.y) - cShape->Y(),
@@ -53,6 +54,31 @@ class Game
 				nShapesIndex++;
 			}
 		}
+	}
+
+	static inline bool ShapesCollison(Shape* cShape, array<array<short, nMapMatrixWidth>, nMapMatrixHeight>& nMap,
+		int nCurrentShape, int nSqrtShapeSize)
+	{
+		int nDifW = (nMapMatrixWidth + ptStartingMapPosition.x) - (cShape->X() + nSqrtShapeSize),
+			nDifH = (nMapMatrixHeight + ptStartingMapPosition.y) - (cShape->Y() + nSqrtShapeSize),
+			nShapeIndex = 0, nShapeElement, nMapElement, nColumnDecrement;
+
+		for (int r = nSqrtShapeSize - 1; r >= (int)(nSqrtShapeSize / 2); r--)
+		{
+			nColumnDecrement = 0;
+
+			for (int c = nSqrtShapeSize - 1; c >= 0; c--)
+			{
+				nShapeElement = cShape->ptrsMemberShapes[nCurrentShape].data[nShapeIndex];
+				nMapElement = nMap[nMapMatrixHeight - nDifH][nMapMatrixWidth - nDifW - nColumnDecrement];
+
+				if (nShapeElement && nMapElement)
+					return true;
+
+				nShapeIndex++; nColumnDecrement++;
+			}
+		}
+		return false;
 	}
 
 public:
