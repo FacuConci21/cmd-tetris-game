@@ -71,7 +71,7 @@ class Game
 			for (int c = nSqrtShapeSize - 1; c >= 0; c--)
 			{
 				nShapeElement = cShape->ptrsMemberShapes[nCurrentShape].data[nShapeIndex];
-				nMapElement = nMap[nMapMatrixHeight - nDifH -1][nMapMatrixWidth - nDifW - nColumnDecrement];
+				nMapElement = nMap[(nMapMatrixHeight - 1) - nDifH][nMapMatrixWidth - nDifW - nColumnDecrement];
 
 				if (nShapeElement && nMapElement)
 					return true;

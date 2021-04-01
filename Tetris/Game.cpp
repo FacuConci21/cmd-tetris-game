@@ -12,7 +12,7 @@ int Game::Main()
 		{ ptStartingMapPosition.x + (int)(nMapMatrixWidth / 2), ptStartingMapPosition.y },
 		{ nMapMatrixWidth - 2, nMapMatrixHeight });
 
-	short nRotationRatio = 1;
+	short nRotationRatio = 0;
 	int nCurrentShape = 2;
 	bool bPieceFix = false;
 	bool bInGame = true; 
@@ -32,7 +32,7 @@ int Game::Main()
 	/*		STABLISHING THE FIRST SHAPE TO BE DISPLAYED		*/
 	srand((int)time(0));
 
-	nCurrentShape = 0;//(rand() % 4);
+	nCurrentShape = (rand() % 4);
 	nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
 
 
