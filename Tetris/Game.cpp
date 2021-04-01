@@ -12,7 +12,7 @@ int Game::Main()
 		{ ptStartingMapPosition.x + (int)(nMapMatrixWidth / 2), ptStartingMapPosition.y },
 		{ nMapMatrixWidth - 2, nMapMatrixHeight });
 
-	short nRotationRatio = 0;
+	short nRotationRatio = 1;
 	int nCurrentShape = 2;
 	bool bPieceFix = false;
 	bool bInGame = true; 
@@ -32,7 +32,7 @@ int Game::Main()
 	/*		STABLISHING THE FIRST SHAPE TO BE DISPLAYED		*/
 	srand((int)time(0));
 
-	nCurrentShape = (rand() % 4);
+	nCurrentShape = 0;//(rand() % 4);
 	nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
 
 
@@ -42,9 +42,9 @@ int Game::Main()
 	{
 		/*			TIMING AND INPUTS		*/
 		
-		this_thread::sleep_for(100ms); // es el tiempo mas  optimo hasta ahora.
+		this_thread::sleep_for(150ms); // es el tiempo mas  optimo hasta ahora.
 
-		while (_kbhit())
+		if (_kbhit())
 		{
 			switch (_getch())
 			{
@@ -72,7 +72,7 @@ int Game::Main()
 
 		// de no tocar el piso comprueba que no toque otra figura en el mapa.
 		if (!bPieceFix) bPieceFix = ShapesCollison(&cShape, nMapMatrix, nCurrentShape, nSqrtCurrentShapeSize);
-
+		
 		if (bPieceFix)
 		{
 			FillMapMatrix(&cShape, nMapMatrix, nCurrentShape, nSqrtCurrentShapeSize);

@@ -61,21 +61,22 @@ class Game
 	{
 		int nDifW = (nMapMatrixWidth + ptStartingMapPosition.x) - (cShape->X() + nSqrtShapeSize),
 			nDifH = (nMapMatrixHeight + ptStartingMapPosition.y) - (cShape->Y() + nSqrtShapeSize),
-			nShapeIndex = 0, nShapeElement, nMapElement, nColumnDecrement;
+			nShapeIndex = (int) cShape->ptrsMemberShapes[nCurrentShape].size - 1,
+			nShapeElement, nMapElement, nColumnDecrement;
 
 		for (int r = nSqrtShapeSize - 1; r >= (int)(nSqrtShapeSize / 2); r--)
 		{
-			nColumnDecrement = 0;
+			nColumnDecrement = 1;
 
 			for (int c = nSqrtShapeSize - 1; c >= 0; c--)
 			{
 				nShapeElement = cShape->ptrsMemberShapes[nCurrentShape].data[nShapeIndex];
-				nMapElement = nMap[nMapMatrixHeight - nDifH][nMapMatrixWidth - nDifW - nColumnDecrement];
+				nMapElement = nMap[nMapMatrixHeight - nDifH -1][nMapMatrixWidth - nDifW - nColumnDecrement];
 
 				if (nShapeElement && nMapElement)
 					return true;
 
-				nShapeIndex++; nColumnDecrement++;
+				nShapeIndex--; nColumnDecrement++;
 			}
 		}
 		return false;
