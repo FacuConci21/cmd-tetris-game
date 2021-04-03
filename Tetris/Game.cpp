@@ -12,13 +12,13 @@ int Game::Main()
 		{ ptStartingMapPosition.x + (int)(nMapMatrixWidth / 2), ptStartingMapPosition.y },
 		{ nMapMatrixWidth - 2, nMapMatrixHeight });
 
-	short nRotationRatio = 0;
-	int nCurrentShape = 2;
 	bool bPieceFix = false;
 	bool bInGame = true;
 	bool bIsRowFilled = false;
-	int nSqrtCurrentShapeSize;
+	short nRotationRatio = 0;
 	int nRowFilled = -1;
+	int nCurrentShape;
+	int nSqrtCurrentShapeSize;
 
 	/*		INITIALIZING MAP MATRIX		 */
 	for (size_t i = 0; i < nMapMatrixHeight; i++)
@@ -34,16 +34,16 @@ int Game::Main()
 	/*		STABLISHING THE FIRST SHAPE TO BE DISPLAYED		*/
 	srand((int)time(0));
 
-	nCurrentShape = (rand() % 4);
+	nCurrentShape = (rand() % 5);
 	nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
 
 	/*		GAME LOOP		*/
 
-	while (bInGame)
+	while (1)
 	{
 		/*				TIMING AND INPUTS		*/
 		
-		this_thread::sleep_for(170ms); // es el tiempo mas  optimo hasta ahora.
+		this_thread::sleep_for(10ms); // es el tiempo mas  optimo hasta ahora.
 
 		while (_kbhit())
 		{
@@ -62,7 +62,7 @@ int Game::Main()
 					
 				break;
 			case KEY_ESCAPE:
-				return 0;
+				return 2;
 			}
 		}
 
@@ -95,6 +95,14 @@ int Game::Main()
 			cShape.RestartCurrentPoint();
  			nRotationRatio = 0;
 			bPieceFix = false;
+		}
+
+		for (size_t c = 1; c < (nMapMatrixWidth-1) ; c++)
+		{
+			if (nMapMatrix[1][c])
+			{
+				return 1;
+			}
 		}
 
 		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, nRotationRatio, nCurrentShape);
