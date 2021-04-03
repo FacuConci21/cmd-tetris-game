@@ -95,6 +95,13 @@ class Game
 		return bIsFilled;
 	}
 
+	static inline void ReFillMapMatrix(array<array<short, nMapMatrixWidth>, nMapMatrixHeight >& nMap, int _row)
+	{
+		for (size_t r = _row; r > 0; r--)
+			for (size_t c = 1; c < (nMapMatrixWidth -1); c++)
+				nMap[r][c] = nMap[r - 1][c];
+	}
+
 public:
 
 	Game() {};

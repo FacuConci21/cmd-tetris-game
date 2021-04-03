@@ -15,7 +15,8 @@ int Game::Main()
 	short nRotationRatio = 0;
 	int nCurrentShape = 2;
 	bool bPieceFix = false;
-	bool bInGame = true; 
+	bool bInGame = true;
+	bool bIsRowFilled = false;
 	int nSqrtCurrentShapeSize;
 	int nRowFilled = -1;
 
@@ -40,7 +41,7 @@ int Game::Main()
 
 	while (bInGame)
 	{
-		/*			TIMING AND INPUTS		*/
+		/*				TIMING AND INPUTS		*/
 		
 		this_thread::sleep_for(170ms); // es el tiempo mas  optimo hasta ahora.
 
@@ -65,7 +66,14 @@ int Game::Main()
 			}
 		}
 
-		/*			GAME LOGIC				*/
+		/*				GAME LOGIC				*/
+
+		if (bIsRowFilled)
+		{
+			ReFillMapMatrix(nMapMatrix, nRowFilled);
+			bIsRowFilled = false;
+			nRowFilled = -1;
+		}
 
 		// comprueba que la figura haya tocado el piso.
 		bPieceFix = cShape.IsTouchingFloor(nSqrtCurrentShapeSize);
@@ -91,7 +99,7 @@ int Game::Main()
 
 		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, nRotationRatio, nCurrentShape);
 
-		/*			DISPLAY					*/
+		/*				DISPLAY					*/
 
 		// Display map.
 
@@ -103,6 +111,7 @@ int Game::Main()
 				_putch(hsSymbols[nMapMatrix[i][0]]);
 				for (size_t j = 1; j < nMapMatrixWidth-1; j++) { _putch('='); }
 				_putch(hsSymbols[nMapMatrix[i][nMapMatrixWidth-1]]);
+				bIsRowFilled = true;
 			}
 			else
 			{
