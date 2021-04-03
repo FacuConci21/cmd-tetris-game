@@ -20,8 +20,8 @@ class Game
 {
 	static const string hsSymbols;
 	static const __utils::SPoint ptStartingMapPosition;
-	static const size_t nMapMatrixWidth = 18;
-	static const size_t nMapMatrixHeight = 20;
+	static const size_t nMapMatrixWidth = 16;
+	static const size_t nMapMatrixHeight = 18;
 
 	static inline void DisplayShape(short* ptrShape, size_t nSqrtSizeShape, int x, int y)
 	{
@@ -80,6 +80,19 @@ class Game
 			}
 		}
 		return false;
+	}
+
+	static inline bool IsRowFilled(array<array<short, nMapMatrixWidth>, nMapMatrixHeight>& nMap, int r)
+	{
+		bool bIsFilled = false;
+
+		for (int c = 1; c < nMap[r].size() - 1; c++)
+		{
+			if (nMap[r][c]) bIsFilled = true;
+			else return bIsFilled = false;
+		}
+
+		return bIsFilled;
 	}
 
 public:

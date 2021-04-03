@@ -17,6 +17,7 @@ int Game::Main()
 	bool bPieceFix = false;
 	bool bInGame = true; 
 	int nSqrtCurrentShapeSize;
+	int nRowFilled = -1;
 
 	/*		INITIALIZING MAP MATRIX		 */
 	for (size_t i = 0; i < nMapMatrixHeight; i++)
@@ -35,16 +36,15 @@ int Game::Main()
 	nCurrentShape = (rand() % 4);
 	nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
 
-
 	/*		GAME LOOP		*/
 
 	while (bInGame)
 	{
 		/*			TIMING AND INPUTS		*/
 		
-		this_thread::sleep_for(150ms); // es el tiempo mas  optimo hasta ahora.
+		this_thread::sleep_for(170ms); // es el tiempo mas  optimo hasta ahora.
 
-		if (_kbhit())
+		while (_kbhit())
 		{
 			switch (_getch())
 			{
@@ -75,11 +75,17 @@ int Game::Main()
 		
 		if (bPieceFix)
 		{
+			int nDifH = (nMapMatrixHeight + ptStartingMapPosition.y) - (cShape.Y() + nSqrtCurrentShapeSize);
+
 			FillMapMatrix(&cShape, nMapMatrix, nCurrentShape, nSqrtCurrentShapeSize);
+
+			if (IsRowFilled(nMapMatrix, ((nMapMatrixHeight - 1) - nDifH)))
+				nRowFilled = (nMapMatrixHeight -1) - nDifH;
 
 			nCurrentShape = (rand() % 4);
 			nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
 			cShape.RestartCurrentPoint();
+ 			nRotationRatio = 0;
 			bPieceFix = false;
 		}
 
@@ -89,10 +95,19 @@ int Game::Main()
 
 		// Display map.
 
-		for (size_t i = 0; i < nMapMatrixHeight - 1; i++)
+		for (size_t i = 0; i < (nMapMatrixHeight - 1); i++)
 		{
 			__utils::GoToXY(ptStartingMapPosition.x, ptStartingMapPosition.y + i);
-			for (size_t j = 0; j < nMapMatrixWidth; j++) _putch(hsSymbols[nMapMatrix[i][j]]);
+			if (i == nRowFilled)
+			{
+				_putch(hsSymbols[nMapMatrix[i][0]]);
+				for (size_t j = 1; j < nMapMatrixWidth-1; j++) { _putch('='); }
+				_putch(hsSymbols[nMapMatrix[i][nMapMatrixWidth-1]]);
+			}
+			else
+			{
+				for (size_t j = 0; j < nMapMatrixWidth; j++) { _putch(hsSymbols[nMapMatrix[i][j]]); }
+			}
 		}
 
 		DisplayShape(cShape.ptrsMemberShapes[nCurrentShape].data, nSqrtCurrentShapeSize, cShape.X(), cShape.Y());
