@@ -22,6 +22,7 @@ class Game
 	static const __utils::SPoint ptStartingMapPosition;
 	static const size_t nMapMatrixWidth = 16;
 	static const size_t nMapMatrixHeight = 18;
+	static int nPlayerScore;
 
 	static inline void DisplayShape(short* ptrShape, size_t nSqrtSizeShape, int x, int y)
 	{

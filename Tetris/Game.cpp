@@ -2,6 +2,7 @@
 
 const string Game::hsSymbols = " ABCDE#";
 const __utils::SPoint Game::ptStartingMapPosition = { 30, 5 };
+int Game::nPlayerScore;
 
 int Game::Main()
 {
@@ -43,7 +44,7 @@ int Game::Main()
 	{
 		/*				TIMING AND INPUTS		*/
 		
-		this_thread::sleep_for(10ms); // es el tiempo mas  optimo hasta ahora.
+		this_thread::sleep_for(170ms); // es el tiempo mas  optimo hasta ahora.
 
 		while (_kbhit())
 		{
@@ -62,7 +63,7 @@ int Game::Main()
 					
 				break;
 			case KEY_ESCAPE:
-				return 2;
+				return 0;
 			}
 		}
 
@@ -88,7 +89,10 @@ int Game::Main()
 			FillMapMatrix(&cShape, nMapMatrix, nCurrentShape, nSqrtCurrentShapeSize);
 
 			if (IsRowFilled(nMapMatrix, ((nMapMatrixHeight - 1) - nDifH)))
+			{
 				nRowFilled = (nMapMatrixHeight -1) - nDifH;
+				nPlayerScore += 10;
+			}
 
 			nCurrentShape = (rand() % 4);
 			nSqrtCurrentShapeSize = (int)sqrt(cShape.ptrsMemberShapes[nCurrentShape].size);
@@ -97,17 +101,19 @@ int Game::Main()
 			bPieceFix = false;
 		}
 
-		for (size_t c = 1; c < (nMapMatrixWidth-1) ; c++)
+		for (size_t c = 1; c < (nMapMatrixWidth - 1); c++)
 		{
-			if (nMapMatrix[1][c])
-			{
-				return 1;
-			}
+			if (nMapMatrix[1][c]) return 0;
 		}
 
 		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, nRotationRatio, nCurrentShape);
 
 		/*				DISPLAY					*/
+
+		// Display Score
+
+		__utils::GoToXY(ptStartingMapPosition.x + 2, 0);
+		cout << "= SCORE : " << nPlayerScore << " =";
 
 		// Display map.
 
