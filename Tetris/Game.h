@@ -108,11 +108,10 @@ class Game
 
 	static void Continue()
 	{
-		
 		for (int i = 0; i < 6; i++)
 		{
 			__utils::GoToXY(4, 7 + i);
-			for (int j = 0; j < 20; j++)
+			for (int j = 0; j < 25; j++)
 			{
 				_putch(' ');
 			}
@@ -132,6 +131,7 @@ class Game
 			break;
 		case 110 | 78:
 		{
+			Continue();
 			bInGame = true;
 		}
 			break;
