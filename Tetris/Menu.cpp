@@ -52,10 +52,11 @@ bool Menu::MoveCursor()
     return true;
 }
 
-vector<SItem<void>*>::iterator Menu::Loop()
+vector<SItem<void>*>::iterator Menu::Loop(bool bClearScreen)
 {
     bool inLoop;
-    system("cls");
+
+    if(bClearScreen)system("cls");
 
     ShowItems();
 

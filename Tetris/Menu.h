@@ -59,7 +59,7 @@ public:
 
     bool MoveCursor();
 
-    vector<SItem<void>*>::iterator Loop();
+    vector<SItem<void>*>::iterator Loop(bool);
 
 };
 

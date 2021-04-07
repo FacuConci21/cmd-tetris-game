@@ -10,6 +10,7 @@
 
 #include "utils.h"
 #include "Shape.h"
+#include "Menu.h"
 
 using namespace std;
 
@@ -19,10 +20,12 @@ using namespace std;
 class Game
 {
 	static const string hsSymbols;
+	static int nPlayerScore;
 	static const __utils::SPoint ptStartingMapPosition;
 	static const size_t nMapMatrixWidth = 16;
 	static const size_t nMapMatrixHeight = 18;
-	static int nPlayerScore;
+	static bool bInGame;
+	static int nGameExit;
 
 	static inline void DisplayShape(short* ptrShape, size_t nSqrtSizeShape, int x, int y)
 	{
@@ -101,6 +104,53 @@ class Game
 		for (size_t r = _row; r > 0; r--)
 			for (size_t c = 1; c < (nMapMatrixWidth -1); c++)
 				nMap[r][c] = nMap[r - 1][c];
+	}
+
+	static void Continue()
+	{
+		
+		for (int i = 0; i < 6; i++)
+		{
+			__utils::GoToXY(4, 7 + i);
+			for (int j = 0; j < 20; j++)
+			{
+				_putch(' ');
+			}
+		}
+	}
+
+	static void Quit()
+	{
+		puts("are you sure? (y/n)");
+		switch (_getch())
+		{
+		case 121 | 89:
+		{
+			bInGame = false;
+			nGameExit = 2;
+		}
+			break;
+		case 110 | 78:
+		{
+			bInGame = true;
+		}
+			break;
+		}/**/
+	}
+
+	static void PauseMenu(bool& bInGame, int& nGameExit)
+	{
+		SItem<void> opContinue = { "continue", Continue };
+		SItem<void> opQuit = { "quit", Quit };
+
+		Menu menu({ &opContinue, &opQuit }, {5, 10});
+
+		__utils::GoToXY(5, 8);
+		puts("PAUSE");
+
+		auto it = *menu.Loop(false);
+
+		(it->toDo)();
 	}
 
 public:
