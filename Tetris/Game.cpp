@@ -2,7 +2,7 @@
 
 const string Game::hsSymbols = " ABCDE#";
 const __utils::SPoint Game::ptStartingMapPosition = { 30, 5 };
-int Game::nPlayerScore;
+int Game::nPlayerScore = 0;
 
 int Game::Main()
 {
@@ -112,7 +112,7 @@ int Game::Main()
 
 		// Display Score
 
-		__utils::GoToXY(ptStartingMapPosition.x + 2, 0);
+		__utils::GoToXY(ptStartingMapPosition.x + 2, 3);
 		cout << "= SCORE : " << nPlayerScore << " =";
 
 		// Display map.
