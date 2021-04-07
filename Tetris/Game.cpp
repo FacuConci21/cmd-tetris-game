@@ -3,6 +3,8 @@
 const string Game::hsSymbols = " ABCDE#";
 const __utils::SPoint Game::ptStartingMapPosition = { 30, 5 };
 int Game::nPlayerScore = 0;
+bool Game::bInGame = true;
+int Game::nGameExit = 0;
 
 int Game::Main()
 {
@@ -14,7 +16,6 @@ int Game::Main()
 		{ nMapMatrixWidth - 2, nMapMatrixHeight });
 
 	bool bPieceFix = false;
-	bool bInGame = true;
 	bool bIsRowFilled = false;
 	short nRotationRatio = 0;
 	int nRowFilled = -1;
@@ -40,7 +41,7 @@ int Game::Main()
 
 	/*		GAME LOOP		*/
 
-	while (1)
+	while (bInGame)
 	{
 		/*				TIMING AND INPUTS		*/
 		
@@ -63,7 +64,9 @@ int Game::Main()
 					
 				break;
 			case KEY_ESCAPE:
-				return 0;
+				PauseMenu(bInGame, nGameExit);
+				break;
+
 			}
 		}
 
@@ -144,5 +147,5 @@ int Game::Main()
 		cShape.IncrementY();
 	}
 
-	return 0;
+	return nGameExit;
 }

@@ -28,11 +28,11 @@ int main()
 
     do
     {
-        auto it = *menu.Loop();
+        auto it = *menu.Loop(true);
         system("cls");
         (it->toDo)();
 
-    } while (!nGameExit);
+    } while (nGameExit >=0);
     
 	return 0;
 }
@@ -40,7 +40,7 @@ int main()
 void NewGame()
 {
     nGameExit = Game::Main();
-    _getch();
+    //_getch();
 }
 
 void LoadGame()
@@ -52,5 +52,5 @@ void LoadGame()
 
 void QuitGame()
 {
-    nGameExit = 1;
+    nGameExit = -1;
 }
