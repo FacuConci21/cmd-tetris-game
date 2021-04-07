@@ -1,0 +1,28 @@
+{
+    "slots": [
+        {
+            "_id": 0,
+            "nCurrentShape": 0,
+            "nPlayerScore": 0,
+            "playerName": "SaMu3L",
+            "shapeState": {
+                "ptShapesCurrentPoint": {
+                    "x": 38,
+                    "y": 10
+                },
+                "ptShapesStartingPoint": {
+                    "x": 38,
+                    "y": 5
+                },
+                "ptTopLeft": {
+                    "x": 31,
+                    "y": 5
+                },
+                "sShapeLimits": {
+                    "height": 18,
+                    "width": 14
+                }
+            }
+        }
+    ]
+}
