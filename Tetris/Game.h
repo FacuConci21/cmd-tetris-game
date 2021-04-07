@@ -127,7 +127,7 @@ class Game
 		case 121 | 89:
 		{
 			bInGame = false;
-			nGameExit = 2;
+			nGameExit = 1;
 		}
 			break;
 		case 110 | 78:

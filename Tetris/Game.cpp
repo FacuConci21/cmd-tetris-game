@@ -106,7 +106,10 @@ int Game::Main()
 
 		for (size_t c = 1; c < (nMapMatrixWidth - 1); c++)
 		{
-			if (nMapMatrix[1][c]) return 0;
+			if (nMapMatrix[1][c]) {
+				bInGame = false;
+				nGameExit = 0;
+			}
 		}
 
 		Shape::Rotate(cShape.ptrsMemberShapes[nCurrentShape].data, cShape.ptrsMemberShapes[nCurrentShape].size, nRotationRatio, nCurrentShape);
@@ -146,6 +149,8 @@ int Game::Main()
 		// Increment Y coord of Shape class object to define its next position.
 		cShape.IncrementY();
 	}
+
+	bInGame = true;
 
 	return nGameExit;
 }
