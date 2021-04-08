@@ -41,8 +41,12 @@ public:
 
 	int X();
 	int Y();
-	int Width();
-	int Height();
+
+	__utils::SPoint& PtTopLeft();
+	__utils::SPoint& PtStartingPoint();
+	__utils::SPoint& PtCurrentPoint();
+	__utils::SSize& SShapeLimits();
+
 
 	inline void IncrementX(int nSqrtCurrentShapeSize)
 	{

@@ -11,6 +11,7 @@
 #include "utils.h"
 #include "Shape.h"
 #include "Menu.h"
+#include "GameBackend.h"
 
 using namespace std;
 
@@ -26,6 +27,8 @@ class Game
 	static const size_t nMapMatrixHeight = 18;
 	static bool bInGame;
 	static int nGameExit;
+	static int* ptrCurrentShape;
+	static Shape* ptrShape;
 
 	static inline void DisplayShape(short* ptrShape, size_t nSqrtSizeShape, int x, int y)
 	{
@@ -118,18 +121,28 @@ class Game
 		}
 	}
 
-	static void Quit()
+	static void SaveAndQuit()
 	{
 		puts("are you sure? (y/n)");
 		switch (_getch())
 		{
-		case 121 | 89:
+		case 121 | 89: // y
 		{
+			string strCurrentPlayerName;
+
+			__utils::GoToXY(10, 8); getline(cin, strCurrentPlayerName);
+
+			GameBackend cGameBackend({ 0, strCurrentPlayerName, *ptrCurrentShape, nPlayerScore,
+				ptrShape->PtTopLeft(), ptrShape->PtStartingPoint() ,
+				ptrShape->PtCurrentPoint(), ptrShape->SShapeLimits() });
+
+			cGameBackend.SaveGame();
+
 			bInGame = false;
 			nGameExit = 1;
 		}
 			break;
-		case 110 | 78:
+		case 110 | 78: // n
 		{
 			Continue();
 			bInGame = true;
@@ -138,10 +151,10 @@ class Game
 		}/**/
 	}
 
-	static void PauseMenu(bool& bInGame, int& nGameExit)
+	static void PauseMenu()
 	{
 		SItem<void> opContinue = { "continue", Continue };
-		SItem<void> opQuit = { "quit", Quit };
+		SItem<void> opQuit = { "save and quit", SaveAndQuit };
 
 		Menu menu({ &opContinue, &opQuit }, {5, 10});
 

@@ -1,0 +1,28 @@
+{
+    "slots": [
+        {
+            "_id": 0,
+            "nCurrentShape": 1,
+            "nPlayerScore": 10,
+            "playerName": "facu",
+            "shapeState": {
+                "ptShapesCurrentPoint": {
+                    "x": 38,
+                    "y": 10
+                },
+                "ptShapesStartingPoint": {
+                    "x": 38,
+                    "y": 5
+                },
+                "ptTopLeft": {
+                    "x": 31,
+                    "y": 5
+                },
+                "sShapeLimits": {
+                    "height": 18,
+                    "width": 14
+                }
+            }
+        }
+    ]
+}

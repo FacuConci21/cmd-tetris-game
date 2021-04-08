@@ -28,14 +28,24 @@ int Shape::Y()
 	return ptShapesCurrentPoint.y;
 }
 
-int Shape::Width()
+__utils::SPoint& Shape::PtTopLeft()
 {
-	return sShapesLimits.width;
+	return ptTopLeft;
 }
 
-int Shape::Height()
+__utils::SPoint& Shape::PtStartingPoint()
 {
-	return sShapesLimits.height;
+	return ptShapesStartingPoint;
+}
+
+__utils::SPoint& Shape::PtCurrentPoint()
+{
+	return ptShapesCurrentPoint;
+}
+
+__utils::SSize& Shape::SShapeLimits()
+{
+	return sShapesLimits;
 }
 
 bool Shape::IsTouchingFloor(int nSqrtCurrentShapeSize)
