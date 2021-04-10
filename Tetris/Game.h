@@ -29,6 +29,7 @@ class Game
 	static int nGameExit;
 	static int* ptrCurrentShape;
 	static Shape* ptrShape;
+	static const array<array<short, nMapMatrixWidth>, nMapMatrixHeight >* ptrMapMatrix; 
 
 	static inline void DisplayShape(short* ptrShape, size_t nSqrtSizeShape, int x, int y)
 	{
@@ -129,14 +130,20 @@ class Game
 		case 121 | 89: // y
 		{
 			string strCurrentPlayerName;
+			json jsonMapMatrixState(*ptrMapMatrix);
 
-			__utils::GoToXY(10, 8); getline(cin, strCurrentPlayerName);
+			__utils::GoToXY(0, 0);
+			puts("Ingresa tu nombre: ");
+			getline(cin, strCurrentPlayerName);
 
 			GameBackend cGameBackend({ 0, strCurrentPlayerName, *ptrCurrentShape, nPlayerScore,
 				ptrShape->PtTopLeft(), ptrShape->PtStartingPoint() ,
 				ptrShape->PtCurrentPoint(), ptrShape->SShapeLimits() });
 
-			cGameBackend.SaveGame();
+			__utils::GoToXY(0, 0);
+			puts("saving ...");
+			cGameBackend.SaveGame(&jsonMapMatrixState);
+			puts(" Done ");
 
 			bInGame = false;
 			nGameExit = 1;

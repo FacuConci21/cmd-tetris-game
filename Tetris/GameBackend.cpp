@@ -1,15 +1,39 @@
 #include "GameBackend.h"
 
-int GameBackend::SaveGame()
+
+void GameBackend::LoadSchemaData()
+{
+    std::ifstream ifsDataJSON("slots.json");
+
+    ifsDataJSON >> jsonSlotSchema;
+
+    ifsDataJSON.close();
+}
+
+void GameBackend::SaveSchemaData()
+{
+    std::ofstream ofsDataJSON("slots.json");
+
+    ofsDataJSON << std::setw(4) << jsonSlotSchema;
+    //ofsDataJSON << jsonSlotSchema;
+
+    ofsDataJSON.close();
+}
+
+int GameBackend::SaveGame(json *ptrJsonMapMatrix)
 {
     // instance of a JSON Slot type object.
 	json jsonSlot;
 
+    // loading schema data
+    LoadSchemaData();
+
     // loading data on JSON Slot.
-    jsonSlot["_id"] = slot.nId;
+    jsonSlot["_id"] = (int) jsonSlotSchema["slots"].size();
     jsonSlot["playerName"] = slot.strPlayerName;
     jsonSlot["nCurrentShape"] = slot.nCurrentShape;
     jsonSlot["nPlayerScore"] = slot.nPlayerScore;
+    jsonSlot["nMapMatrixState"] = *ptrJsonMapMatrix;
 
     jsonSlot["shapeState"]["ptTopLeft"]["x"] = slot.ptTopLeft.x;
     jsonSlot["shapeState"]["ptShapesStartingPoint"]["x"] = slot.ptShapesStartingPoint.x;
@@ -26,11 +50,7 @@ int GameBackend::SaveGame()
     jsonSlotSchema["slots"].push_back(jsonSlot);
 
     // saving data.
-    std::ofstream ofsDataJSON("slot0.json");
-
-    ofsDataJSON << std::setw(4) << jsonSlotSchema;
-
-    ofsDataJSON.close();
+    SaveSchemaData();
 
     return 0;
 }

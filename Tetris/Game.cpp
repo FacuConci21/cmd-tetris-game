@@ -7,6 +7,7 @@ bool Game::bInGame = true;
 int Game::nGameExit = 0;
 int* Game::ptrCurrentShape = nullptr;
 Shape* Game::ptrShape = nullptr;
+const array<array<short, Game::nMapMatrixWidth>, Game::nMapMatrixHeight >* Game::ptrMapMatrix = nullptr;
 
 int Game::Main()
 {
@@ -28,6 +29,7 @@ int Game::Main()
 
 	ptrCurrentShape = &nCurrentShape;
 	ptrShape = &cShape;
+	ptrMapMatrix = &nMapMatrix;
 
 	/*		INITIALIZING MAP MATRIX		 */
 	for (size_t i = 0; i < nMapMatrixHeight; i++)
