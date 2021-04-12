@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameBackend.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Shape.cpp" />
@@ -147,6 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameBackend.h" />
+    <ClInclude Include="ISlots.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="utils.h" />

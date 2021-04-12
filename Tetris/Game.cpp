@@ -5,6 +5,9 @@ const __utils::SPoint Game::ptStartingMapPosition = { 30, 5 };
 int Game::nPlayerScore = 0;
 bool Game::bInGame = true;
 int Game::nGameExit = 0;
+int* Game::ptrCurrentShape = nullptr;
+Shape* Game::ptrShape = nullptr;
+const array<array<short, Game::nMapMatrixWidth>, Game::nMapMatrixHeight >* Game::ptrMapMatrix = nullptr;
 
 int Game::Main()
 {
@@ -21,6 +24,12 @@ int Game::Main()
 	int nRowFilled = -1;
 	int nCurrentShape;
 	int nSqrtCurrentShapeSize;
+
+	/*		INITIALIZING POINTERS		*/
+
+	ptrCurrentShape = &nCurrentShape;
+	ptrShape = &cShape;
+	ptrMapMatrix = &nMapMatrix;
 
 	/*		INITIALIZING MAP MATRIX		 */
 	for (size_t i = 0; i < nMapMatrixHeight; i++)
@@ -64,7 +73,7 @@ int Game::Main()
 					
 				break;
 			case KEY_ESCAPE:
-				PauseMenu(bInGame, nGameExit);
+				PauseMenu();
 				break;
 
 			}
